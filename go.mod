@@ -11,7 +11,7 @@ require (
 	github.com/strangelove-ventures/lens v0.4.0
 	github.com/tendermint/tendermint v0.34.19
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
-	google.golang.org/grpc v1.46.2
+	google.golang.org/grpc v1.45.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -25,6 +25,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/btcsuite/btcd v0.22.1 // indirect
+	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/confio/ics23/go v0.7.0 // indirect
