@@ -11,7 +11,7 @@ require (
 	github.com/strangelove-ventures/lens v0.4.0
 	github.com/tendermint/tendermint v0.34.19
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
-	google.golang.org/grpc v1.45.0
+	google.golang.org/grpc v1.46.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
