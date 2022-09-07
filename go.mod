@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/cosmos/ibc-go/v3 v3.1.1
-	github.com/persistenceOne/persistence-sdk v0.0.0-20220829173030-2a4d2f220749
+	github.com/persistenceOne/persistence-sdk v0.0.0-20220907073812-928636f2f67e
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/viper v1.11.0
 	github.com/strangelove-ventures/lens v0.4.0
