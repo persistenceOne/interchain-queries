@@ -19,7 +19,7 @@ import (
 	querytypes "github.com/cosmos/cosmos-sdk/types/query"
 	txtypes "github.com/cosmos/cosmos-sdk/types/tx"
 	"github.com/ingenuity-build/interchain-queries/pkg/config"
-	qstypes "github.com/ingenuity-build/quicksilver/x/interchainquery/types"
+	qstypes "github.com/persistenceOne/persistence-sdk/x/interchainquery/types"
 	lensclient "github.com/strangelove-ventures/lens/client"
 	lensquery "github.com/strangelove-ventures/lens/client/query"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
@@ -29,8 +29,8 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
-	tmclient "github.com/cosmos/ibc-go/v5/modules/light-clients/07-tendermint/types"
+	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
+	tmclient "github.com/cosmos/ibc-go/v3/modules/light-clients/07-tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 )
 
@@ -108,16 +108,15 @@ func Run(cfg *config.Config, home string) error {
 
 	for _, client := range clients {
 		if client.Config.ChainID != cfg.DefaultChain {
-			go func(c *lensclient.ChainClient, logger log.Logger) {
+			go func(c *lensclient.ChainClient, client *lensclient.ChainClient, logger log.Logger) {
 			CNT:
 				for {
 					req := &qstypes.QueryRequestsRequest{
 						Pagination: &querytypes.PageRequest{Limit: 500},
 						ChainId:    client.Config.ChainID,
 					}
-
 					bz := c.Codec.Marshaler.MustMarshal(req)
-					res, err := c.RPCClient.ABCIQuery(ctx, "/quicksilver.interchainquery.v1.QuerySrvr/Queries", bz)
+					res, err := c.RPCClient.ABCIQuery(ctx, "/persistence.interchainquery.v1beta1.QuerySrvr/Queries", bz)
 					if err != nil {
 						if strings.Contains(err.Error(), "Client.Timeout") {
 							logger.Log("error", fmt.Sprintf("timeout: %s", err.Error()))
@@ -139,7 +138,7 @@ func Run(cfg *config.Config, home string) error {
 					time.Sleep(30 * time.Second)
 
 				}
-			}(defaultClient, log.With(logger, "chain", defaultClient.Config.ChainID, "src_chain", client.Config.ChainID))
+			}(defaultClient, client, log.With(logger, "chain", defaultClient.Config.ChainID, "src_chain", client.Config.ChainID))
 			wg.Add(1)
 		}
 	}
@@ -494,7 +493,7 @@ func flush(chainId string, toSend []sdk.Msg, logger log.Logger) {
 		}
 		// dedupe on queryId
 		msgs := unique(toSend, logger)
-		resp, err := client.SendMsgs(context.Background(), msgs, VERSION)
+		resp, err := client.SendMsgs(context.Background(), msgs)
 		if err != nil {
 			if resp != nil && resp.Code == 19 && resp.Codespace == "sdk" {
 				//if err.Error() == "transaction failed with code: 19" {
