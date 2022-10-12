@@ -18,9 +18,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
-	"github.com/cosmos/ibc-go/v5/modules/apps/transfer"
-	ibc "github.com/cosmos/ibc-go/v5/modules/core"
-	interchainquery "github.com/ingenuity-build/quicksilver/x/interchainquery"
+	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
+	ibc "github.com/cosmos/ibc-go/v3/modules/core"
+	interchainquery "github.com/persistenceOne/persistence-sdk/x/interchainquery"
 )
 
 // TODO: Import a bunch of custom modules like cosmwasm and osmosis
@@ -34,7 +34,7 @@ var ModuleBasics = []module.AppModuleBasic{
 	// TODO: add osmosis governance proposal types here
 	// TODO: add other proposal types here
 	gov.NewAppModuleBasic(
-		[]govclient.ProposalHandler{paramsclient.ProposalHandler, distrclient.ProposalHandler},
+		[]govclient.ProposalHandler{paramsclient.ProposalHandler, distrclient.ProposalHandler}...,
 	),
 	crisis.AppModuleBasic{},
 	distribution.AppModuleBasic{},
