@@ -12,7 +12,6 @@ require (
 	github.com/spf13/viper v1.14.0
 	github.com/strangelove-ventures/lens v0.5.2-0.20220907143146-cc0bde60edd0
 	github.com/tendermint/tendermint v0.34.27
-	golang.org/x/term v0.5.0
 	google.golang.org/grpc v1.52.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -140,6 +139,7 @@ require (
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
 	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/api v0.102.0 // indirect
