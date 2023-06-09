@@ -8,7 +8,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/capability"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	"github.com/cosmos/cosmos-sdk/x/distribution"
-	distrclient "github.com/cosmos/cosmos-sdk/x/distribution/client"
 	feegrant "github.com/cosmos/cosmos-sdk/x/feegrant/module"
 	"github.com/cosmos/cosmos-sdk/x/gov"
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
@@ -18,8 +17,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
-	"github.com/cosmos/ibc-go/v6/modules/apps/transfer"
-	ibc "github.com/cosmos/ibc-go/v6/modules/core"
+	"github.com/cosmos/ibc-go/v7/modules/apps/transfer"
+	ibc "github.com/cosmos/ibc-go/v7/modules/core"
+	ibctm "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
 	interchainquery "github.com/persistenceOne/persistence-sdk/v2/x/interchainquery"
 )
 
@@ -34,7 +34,7 @@ var ModuleBasics = []module.AppModuleBasic{
 	// TODO: add osmosis governance proposal types here
 	// TODO: add other proposal types here
 	gov.NewAppModuleBasic(
-		[]govclient.ProposalHandler{paramsclient.ProposalHandler, distrclient.ProposalHandler},
+		[]govclient.ProposalHandler{paramsclient.ProposalHandler},
 	),
 	crisis.AppModuleBasic{},
 	distribution.AppModuleBasic{},
@@ -46,5 +46,6 @@ var ModuleBasics = []module.AppModuleBasic{
 	upgrade.AppModuleBasic{},
 	transfer.AppModuleBasic{},
 	ibc.AppModuleBasic{},
+	ibctm.AppModuleBasic{},
 	interchainquery.AppModuleBasic{},
 }
