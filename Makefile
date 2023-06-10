@@ -3,7 +3,7 @@
 version ?= latest
 
 build:
-	go build -o new-icq
+	go build 
 
 docker:
 	docker build -f Dockerfile . -t quicksilverzone/interchain-queries:${version}
