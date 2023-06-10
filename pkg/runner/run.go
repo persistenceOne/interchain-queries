@@ -21,6 +21,11 @@ import (
 
 	"github.com/go-kit/log"
 
+	abcitypes "github.com/cometbft/cometbft/abci/types"
+	tmquery "github.com/cometbft/cometbft/libs/pubsub/query"
+	"github.com/cometbft/cometbft/proto/tendermint/crypto"
+	rpcclient "github.com/cometbft/cometbft/rpc/client"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	querytypes "github.com/cosmos/cosmos-sdk/types/query"
@@ -29,17 +34,12 @@ import (
 	qstypes "github.com/persistenceOne/persistence-sdk/v2/x/interchainquery/types"
 	lensclient "github.com/strangelove-ventures/lens/client"
 	lensquery "github.com/strangelove-ventures/lens/client/query"
-	abcitypes "github.com/tendermint/tendermint/abci/types"
-	tmquery "github.com/tendermint/tendermint/libs/pubsub/query"
-	"github.com/tendermint/tendermint/proto/tendermint/crypto"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
 	"google.golang.org/grpc/metadata"
 
+	tmtypes "github.com/cometbft/cometbft/types"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
-	tmclient "github.com/cosmos/ibc-go/v6/modules/light-clients/07-tendermint/types"
-	tmtypes "github.com/tendermint/tendermint/types"
+	clienttypes "github.com/cosmos/ibc-go/v7/modules/core/02-client/types"
+	tmclient "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
 )
 
 type Clients []*lensclient.ChainClient
@@ -458,16 +458,16 @@ func submitClientUpdate(client, submitClient *lensclient.ChainClient, query Quer
 		_ = logger.Log("msg", fmt.Sprintf("Error: Could not get header %s", err))
 		return
 	}
-	anyHeader, err := clienttypes.PackHeader(header)
+	anyHeader, err := clienttypes.PackClientMessage(header)
 	if err != nil {
 		_ = logger.Log("msg", fmt.Sprintf("Error: Could not pack header %s", err))
 		return
 	}
 
 	msg := &clienttypes.MsgUpdateClient{
-		ClientId: clientId, // needs to be passed in as part of request.
-		Header:   anyHeader,
-		Signer:   submitClient.MustEncodeAccAddr(from),
+		ClientId:      clientId, // needs to be passed in as part of request.
+		ClientMessage: anyHeader,
+		Signer:        submitClient.MustEncodeAccAddr(from),
 	}
 
 	sendQueue[query.SourceChainId] <- msg
@@ -644,8 +644,9 @@ func unique(msgSlice []sdk.Msg, logger log.Logger) []sdk.Msg {
 	for _, entry := range msgSlice {
 		msg, ok := entry.(*clienttypes.MsgUpdateClient)
 		if ok {
-			header, _ := clienttypes.UnpackHeader(msg.Header)
-			key := header.GetHeight().String()
+			header, _ := clienttypes.UnpackClientMessage(msg.ClientMessage)
+			header2 := header.(*tmclient.Header)
+			key := header2.GetHeight().String()
 			if _, value := clientUpdateHeights[key]; !value {
 				clientUpdateHeights[key] = true
 				list = append(list, entry)
