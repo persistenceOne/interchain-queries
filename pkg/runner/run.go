@@ -48,8 +48,8 @@ const VERSION = "icq/v0.8.2"
 
 var (
 	WaitInterval       = time.Second * 6
-	MaxHistoricQueries = 5
-	MaxTxMsgs          = 5
+	MaxHistoricQueries = 100
+	MaxTxMsgs          = 100
 	clients            = Clients{}
 	ctx                = context.Background()
 	sendQueue          = map[string]chan sdk.Msg{}
