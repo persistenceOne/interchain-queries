@@ -5,10 +5,11 @@ go 1.19
 require (
 	github.com/cometbft/cometbft v0.37.2
 	github.com/cosmos/cosmos-sdk v0.47.3
-	github.com/cosmos/ibc-go/v7 v7.1.0
+	github.com/cosmos/ibc-go/v7 v7.2.0
+	github.com/dgraph-io/ristretto v0.1.1
 	github.com/go-kit/log v0.2.1
 	github.com/persistenceOne/persistence-sdk/v2 v2.1.0
-	github.com/prometheus/client_golang v1.15.0
+	github.com/prometheus/client_golang v1.15.1
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 	github.com/strangelove-ventures/lens v0.5.2-0.20230418174104-735a2a0195eb
@@ -65,7 +66,6 @@ require (
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
 	github.com/desertbit/timer v0.0.0-20180107155436-c41aec40b27f // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.4 // indirect
-	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/dvsekhvalnov/jose2go v1.5.0 // indirect
